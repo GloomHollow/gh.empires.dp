@@ -1,0 +1,56 @@
+name: Create Archive
+on: 
+  push:
+    branches:
+      - main
+# This is a comment, and this is used to force a run
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Time
+        id: time
+        uses: nanzm/get-time-action@master
+        with:
+          timeZone: 8
+          format: "YYYYMMDDHHmmss"
+      - uses: actions/checkout@master
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: "zip"
+          filename: "gh.empires.dp.zip"
+          exclusions: "*.git* /*node_modules/* .editorconfig .github"
+
+      - uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: WHRULMFF
+          modrinth-featured: true
+          modrinth-unfeature-mode: subset
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+
+          #github-tag: 0.{{ github.run_number }}
+          #github-generate-changelog: true
+          #github-draft: false
+          #github-prerelease: false
+          #github-commitish: main
+          #github-discussion: Announcements
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+          files: |
+            ./gh.empires.dp.zip
+
+          name: Empires.DP-0.${{ github.run_number }}
+          version: v.0.${{ github.run_number }}
+          version-type: release
+
+
+          loaders: datapack
+
+          game-versions: |
+            >=1.20
+          game-version-filter: releases
+
+          retry-attempts: 2
+          retry-delay: 10000
+          fail-mode: fail
