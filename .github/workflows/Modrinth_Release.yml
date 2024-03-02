@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - master
 # This is a comment, and this is used to force a run
 jobs:
   build:
