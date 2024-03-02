@@ -20,7 +20,7 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           type: "zip"
-          filename: "gh.empires.dp.zip"
+          filename: "gh.empires.dp-0.${{ github.run_number }}.zip"
           exclusions: "*.git* /*node_modules/* .editorconfig .github"
 
       - uses: Kir-Antipov/mc-publish@v3.3
@@ -39,7 +39,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
           files: |
-            ./gh.empires.dp.zip
+            ./gh.empires.dp-0.${{ github.run_number }}.zip
 
           name: Empires.DP-0.${{ github.run_number }}
           version: v.0.${{ github.run_number }}
